@@ -9,55 +9,55 @@ title: 导航自定义动画以及手势返回和手势前进
 
 ##### 效果图
 
-<img src="/images/back_foward.gif" alt="" title="" width="375" />
+<img src="{{ site.baseurl }}/images/back_foward.gif" alt="" title="" width="375" />
 
 ##### 导航协议和导航的基础知识 
 
 1
 
-{% highlight ruby linenos %}
+```
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
-{% endhighlight %}
+```
 
 push和pop方法被调用后，动画执行前会被调用。
 
 2
 
-{% highlight ruby linenos %}
+```
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
-{% endhighlight %}
+```
 
 push和pop方法被调用后，动画执行结束会被调用，如果动画被取消，此处不会执行。
 
 3
 
-{% highlight ruby linenos %}
+```
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController
-{% endhighlight %}
+```
 
 返回一个交互式内容，返回的内容内的当前手势完成百分比信息可以控制系统的动画完成度百分比。所谓交互式，就是手可以控制动画的意思。
 
 4
 
-{% highlight ruby linenos %}
+```
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
-{% endhighlight %}
+```
 
 返回一个动画，实现这个协议后，系统自带的左滑返回动画会不起作用，如果这里动画返回nil,系统不会去调用流程3.
 
 5
 
-{% highlight ruby linenos %}
+```
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
-{% endhighlight %}
+```
 
 系统的push方法。
 
 6
 
-{% highlight ruby linenos %}
+```
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
-{% endhighlight %}
+```
 
 系统的pop方法。
 
@@ -78,7 +78,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 7
 
-{% highlight ruby linenos %}
+```
 - (void)prepareGestureRecognizer
 {
     UIGestureRecognizer *gesture = self.interactivePopGestureRecognizer;
@@ -101,13 +101,13 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
         [gestureView addGestureRecognizer:pushRecognizer];
     }
 }
-{% endhighlight %}
+```
 
 给导航添加返回手势和前进手势。
 
 8
 
-{% highlight ruby linenos %}
+```
 - (void)handleEdgePanGestureRecognizer:(UIScreenEdgePanGestureRecognizer *)recognizer
 {
 BOOL isPush = NO;
@@ -151,7 +151,7 @@ else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state =
     self.interactiveTransition = nil;
 }
 }
-{% endhighlight %}
+```
 
 手势被触发后，根据手势进度去调用push或者pop操作，并计算手势进度传给要返回给系统的交互式内容interactiveTransition.
 
@@ -165,7 +165,7 @@ else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state =
 
 原先的想法是先将函数指针从外部传递进来，最后通过1和2来调用block实现，但是考虑到有些流程会导致2不被调用，所以将回调的函数指针传入自定义动画中，让自定义动画根据执行结果来调用函数。
 
-{% highlight ruby linenos %}
+```
 completion:^(BOOL finished) {
           if ([transitionContext transitionWasCancelled]) {
               toView.layer.transform = CATransform3DIdentity;
@@ -176,7 +176,7 @@ completion:^(BOOL finished) {
               self.comleteBlock(!transitionContext.transitionWasCancelled);
           }
         }];
-{% endhighlight %}
+```
 
 ##### 导航前进功能
 

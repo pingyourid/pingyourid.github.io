@@ -1,19 +1,28 @@
 ---
 layout: post
 title: 保存app内容到手机桌面
+subtitle:   "The Next Generation Application Model For The Web - Progressive Web App"
+date:       2017-02-09 12:00:00
+author:     "Hux"
+header-img: "img/post-bg-nextgen-web-pwa.jpg"
+header-mask: 0.3
+catalog:    true
+tags:
+    - Web
+    - PWA
 ---
 
 今天，我发现淘宝手机app可以把用户喜欢的店铺保存到app的桌面上，感觉很神奇，研究了下怎么做，并记录下来顺便分享下心得。附上[demo地址](https://github.com/pingyourid/AppWebClip)
 
 下面是实际效果:
 
-安装描述文件
+安装描述文件1
 
-![_config.yml](/images/profile.gif)
+![](/img/in-post/post-app-shortcut/profile.gif)
 
 safari生成webclip
 
-![_config.yml](/images/safari1.gif)
+![](/img/in-post/post-app-shortcut/safari1.gif)
 
 
 这种效果就是苹果的webclip,app上要生成它主要有2种方式。
@@ -29,7 +38,8 @@ safari生成webclip
 	safari是可以直接安装描述文件的，但是safari和应用是2个独立的沙盒，所以这里需要解决应用和safari共享文件的问题。这里使用的思路是把app作为一个服务器，让safari访问这个服务器获取到描述文件进行安装，因为程序进入后台后还可以运行一段时间，所以这里是可行的。
 
 	可以使用第三方库[CocoaHTTPServer](https://github.com/robbiehanson/CocoaHTTPServer)在app端运行一个服务器。safari中访问 loacalhost:端口号/目录即可打开文件。
-{% highlight ruby linenos %}
+
+```javascript
 - (void)startServer
 {
     // Create server using our custom MyHTTPServer class
@@ -79,17 +89,17 @@ safari生成webclip
     
     return YES;
 }
-{% endhighlight %}
+```
 
 safari中打开关键代码
 
-{% highlight ruby linenos %}
+```javascript
 __weak AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     UInt16 port = appDelegate.httpServer.port;
     NSLog(@"%u", port);
     if (success) [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%u/profile.mobileconfig", port]]];
     else NSLog(@"Error generating profile");
-{% endhighlight %}
+```
     
 ## 通过safari自带功能生成webclip
 safari带有一个为当前网页生成webclip的功能，现在我们就需要使用这个方式来生成webclip。
@@ -102,7 +112,7 @@ safari带有一个为当前网页生成webclip的功能，现在我们就需要�
 
 - 配置并传输data-url
 
-{% highlight ruby linenos %}
+```javascript
     //配置返回值
     [appDelegate.httpServer get:@"/old" withBlock:^(RouteRequest *request, RouteResponse *response) {
         [response setStatusCode:302]; // or 301
@@ -114,28 +124,28 @@ safari带有一个为当前网页生成webclip的功能，现在我们就需要�
     NSLog(@"%u", port);
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:%u/old", port]]];
 
-{% endhighlight %}
+```
 
 - 用户打开js
 
-![_config.yml](/images/QQ20150309-2@2x.png)
+![](/img/in-post/post-app-shortcut/QQ20150309-2@2x.png)
 
 - 通过safari保存webclip
 
-![_config.yml](/images/QQ20150309-1@2x.png)
+![](/img/in-post/post-app-shortcut/QQ20150309-1@2x.png)
 
 - data-url中加入js
 	
     通过safari打开的html是处于safari mode,而直接通过webclip打开的html是处于app mode,可以理解为safari mode是嵌入在safari中的网页，app mode的网页是单独的网页，通过这个状态我们可以控制什么时候调用js,来控制最终是展示当前网页还是跳转到我们指定的app。这里我写的是 sample:// ,可以按照需要替换成app的scheme,即可跳转到app。
 
-{% highlight js linenos %}
+```javascript
 <script>if (window.navigator.standalone){window.location.href='sample://';}</script>
-{% endhighlight %}
+```
 
 ## 其他可以做的细节
 - html和配置文件，我们都可以通过替换字符串等方式修改最终生成的内容，以此来针对不同用户生成不同内容。
 
-{% highlight ruby linenos %}
+```javascript
 NSString *templatePath = [[NSBundle mainBundle] pathForResource:@"phone_template" ofType:@"mobileconfig"];
    
     NSString *data = [NSString stringWithContentsOfFile:templatePath encoding:NSUTF8StringEncoding error:NULL];
@@ -148,7 +158,7 @@ NSString *templatePath = [[NSBundle mainBundle] pathForResource:@"phone_template
     BOOL success = [data writeToFile:[ProfileGenerator profilePath] atomically:YES encoding:NSUTF8StringEncoding error:nil];
    
     return success;
-{% endhighlight %}
+```
 
 - 端口号不一定要写死，这里仅仅是方便测试。
 

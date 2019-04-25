@@ -41,15 +41,15 @@ api比较少，基本上就3个，很容易记住；
 
 - 固定view宽度
 
-<img src="/images/QQ20150730-1@2x.png" alt="" title="" width="200" /> <img src="/images/QQ20150730-2@2x.png" alt="" title="" width="200" />
+<img src="{{ site.baseurl }}/images/QQ20150730-1@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150730-2@2x.png" alt="" title="" width="200" />
 
 - 固定间隙
 
-<img src="/images/QQ20150730-3@2x.png" alt="" title="" width="200" /> <img src="/images/QQ20150730-4@2x.png" alt="" title="" width="200" />
+<img src="{{ site.baseurl }}/images/QQ20150730-3@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150730-4@2x.png" alt="" title="" width="200" />
 
 - 针对固定宽度空格均匀分布
 
-{% highlight ruby linenos %}
+```
 MAS_VIEW *prev;
         for (int i = 0; i < self.count; i++) {
             MAS_VIEW *v = [self objectAtIndex:i];
@@ -69,13 +69,13 @@ MAS_VIEW *prev;
             prev = v;
         }
 
-{% endhighlight %}
+```
 
 比如水平方向，只要控制去头去尾，view宽度相等，view之间间距是传入的固定间距，就完成了。
 
 - 针对固定view宽度均匀分布。
 
-{% highlight ruby linenos %}
+```
 MAS_VIEW *prev;
         for (int i = 0; i < self.count; i++) {
             MAS_VIEW *v = [self objectAtIndex:i];
@@ -97,13 +97,13 @@ MAS_VIEW *prev;
             }];
             prev = v;
         }
-{% endhighlight %}
+```
 
 理论上也应该是去头去尾，间隙相等，view宽度固定。问题是，autolayout中并没有任何api可以表示间隙在没有定值的情况下相等。但是有基础api中可以让一个view的属性＝另一个view的属性*倍数+offset。
 
 这里就考虑计算小view的right属性＝父view的right属性*倍数+offset。于是建模，列方程组，推导如图：
 
-<img src="/images/QQ20150901-1@2x.png" alt="" title="" width="200" /> <img src="/images/QQ20150901-2@2x.png" alt="" title="" width="200" />
+<img src="{{ site.baseurl }}/images/QQ20150901-1@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150901-2@2x.png" alt="" title="" width="200" />
 
 ---
 

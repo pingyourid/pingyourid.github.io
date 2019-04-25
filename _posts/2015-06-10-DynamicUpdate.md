@@ -22,7 +22,7 @@ title: 绕过苹果审核使用动态库
 
 - 动态库代码
 
-{% highlight ruby linenos %}
+```
  @interface Person : NSObject
  - (void)run; 
  @end
@@ -35,20 +35,20 @@ title: 绕过苹果审核使用动态库
  	[alert show]; 
  } 
  @end
-{% endhighlight %}
+```
 
 - 服务器需要准备动态库和执行本地代码的js文件,这边模拟了下，存到了document目录下
 
-{% highlight ruby linenos %}
+```   
 	//模拟下载js到沙盒
     NSString *jsPath = [self copyRes:@"load.js"];
     //模拟下载动态库到沙盒
     NSString *dlPath = [self copyRes:@"Dylib.framework"];
-{% endhighlight %}
+```
 
 - 传入动态文件库到js代码内，并执行js
 
-{% highlight ruby linenos %}
+```
 	[JPEngine startEngine];
 
     NSError *error = nil;
@@ -59,7 +59,7 @@ title: 绕过苹果审核使用动态库
     if (script) {
         [JPEngine evaluateScript:script];
     }
-{% endhighlight %}
+```
 
 这里的startEngine是[JSPatch](https://github.com/bang590/JSPatch)库中的方法，[博客传送门](http://blog.cnbang.net/works/2767/)，JSPatch利用JavaScriptCore.framework在js中注册oc的代码，回调到oc时通过runtime把传入的字符串变成方法后调用。
 
@@ -69,44 +69,44 @@ title: 绕过苹果审核使用动态库
 
  js:替换JSLoad类的loadDl方法
  
-{% highlight ruby linenos %}
+```
  defineClass('JSLoad', null, {
     loadDl: function() {
         var bundle = require('NSBundle').bundleWithPath('aaaaa');
         bundle.loadAndReturnError(null);
     }, 
  });
-{% endhighlight %}
+```
  
  oc:预埋的空方法
  
-{% highlight ruby linenos %}
+```
  + (void)loadDl
  {
 
  }
-{% endhighlight %}
+```
 
 - 执行已经被替换掉的方法，该方法会去调用加载动态库
 
-{% highlight ruby linenos %}
+```
 [JSLoad loadDl];
-{% endhighlight %}
+```
 
-{% highlight ruby linenos %}
+```
 var bundle = require('NSBundle').bundleWithPath('aaaaa');
      bundle.loadAndReturnError(null);
-{% endhighlight %}
+```
 
 - 使用动态库中的类
 
-{% highlight ruby linenos %}
+```
 Class rootClass = NSClassFromString(@"Person");
     if (rootClass) {
         id object = [[rootClass alloc] init];
         [object run];
     }
-{% endhighlight %}
+```
 
 loadAndReturnError就是避免要被苹果检测到的函数，如此这般，就完成了从服务器下载到函数名，然后动态调用的方式。
 
