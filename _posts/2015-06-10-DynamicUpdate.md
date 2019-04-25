@@ -22,7 +22,7 @@ title: 绕过苹果审核使用动态库
 
 - 动态库代码
 
-```
+```javascript
  @interface Person : NSObject
  - (void)run; 
  @end
@@ -39,7 +39,7 @@ title: 绕过苹果审核使用动态库
 
 - 服务器需要准备动态库和执行本地代码的js文件,这边模拟了下，存到了document目录下
 
-```   
+```javascript   
 	//模拟下载js到沙盒
     NSString *jsPath = [self copyRes:@"load.js"];
     //模拟下载动态库到沙盒
@@ -48,7 +48,7 @@ title: 绕过苹果审核使用动态库
 
 - 传入动态文件库到js代码内，并执行js
 
-```
+```javascript
 	[JPEngine startEngine];
 
     NSError *error = nil;
@@ -69,7 +69,7 @@ title: 绕过苹果审核使用动态库
 
  js:替换JSLoad类的loadDl方法
  
-```
+```javascript
  defineClass('JSLoad', null, {
     loadDl: function() {
         var bundle = require('NSBundle').bundleWithPath('aaaaa');
@@ -80,7 +80,7 @@ title: 绕过苹果审核使用动态库
  
  oc:预埋的空方法
  
-```
+```javascript
  + (void)loadDl
  {
 
@@ -89,18 +89,18 @@ title: 绕过苹果审核使用动态库
 
 - 执行已经被替换掉的方法，该方法会去调用加载动态库
 
-```
+```javascript
 [JSLoad loadDl];
 ```
 
-```
+```javascript
 var bundle = require('NSBundle').bundleWithPath('aaaaa');
      bundle.loadAndReturnError(null);
 ```
 
 - 使用动态库中的类
 
-```
+```javascript
 Class rootClass = NSClassFromString(@"Person");
     if (rootClass) {
         id object = [[rootClass alloc] init];

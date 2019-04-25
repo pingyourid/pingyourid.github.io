@@ -9,13 +9,13 @@ title: 导航自定义动画以及手势返回和手势前进
 
 ##### 效果图
 
-<img src="{{ site.baseurl }}/images/back_foward.gif" alt="" title="" width="375" />
+<img src="/img/in-post/post-nav-animation.gif" alt="" title="" width="375" />
 
 ##### 导航协议和导航的基础知识 
 
 1
 
-```
+```javascript
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 ```
 
@@ -23,7 +23,7 @@ push和pop方法被调用后，动画执行前会被调用。
 
 2
 
-```
+```javascript
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 ```
 
@@ -31,7 +31,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 3
 
-```
+```javascript
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController
 ```
 
@@ -39,7 +39,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 4
 
-```
+```javascript
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 ```
 
@@ -47,7 +47,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 5
 
-```
+```javascript
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 ```
 
@@ -55,7 +55,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 6
 
-```
+```javascript
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 ```
 
@@ -78,7 +78,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 7
 
-```
+```javascript
 - (void)prepareGestureRecognizer
 {
     UIGestureRecognizer *gesture = self.interactivePopGestureRecognizer;
@@ -107,7 +107,7 @@ push和pop方法被调用后，动画执行结束会被调用，如果动画被�
 
 8
 
-```
+```javascript
 - (void)handleEdgePanGestureRecognizer:(UIScreenEdgePanGestureRecognizer *)recognizer
 {
 BOOL isPush = NO;
@@ -165,7 +165,7 @@ else if (recognizer.state == UIGestureRecognizerStateEnded || recognizer.state =
 
 原先的想法是先将函数指针从外部传递进来，最后通过1和2来调用block实现，但是考虑到有些流程会导致2不被调用，所以将回调的函数指针传入自定义动画中，让自定义动画根据执行结果来调用函数。
 
-```
+```javascript
 completion:^(BOOL finished) {
           if ([transitionContext transitionWasCancelled]) {
               toView.layer.transform = CATransform3DIdentity;

@@ -2,8 +2,8 @@
 layout: post
 title: 保存app内容到手机桌面
 subtitle:   "The Next Generation Application Model For The Web - Progressive Web App"
-date:       2017-02-09 12:00:00
-author:     "Hux"
+date:       2015-03-09 12:00:00
+author:     "bibibi"
 header-img: "img/post-bg-nextgen-web-pwa.jpg"
 header-mask: 0.3
 catalog:    true

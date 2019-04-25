@@ -3,14 +3,14 @@ layout: post
 title: ios容器类内存管理详解
 ---
 
-![_config.yml]({{ site.baseurl }}/images/copy_type.jpg)
+![](/img/in-post/post-copy-collection/copy_type.jpg)
 ## 浅拷贝
 
 有多种方法来创建一个集合（a collection）的浅拷贝。当你创建一个浅拷贝，便给原来`集合的对象`发送一个 retain 消息，对象的指针被复制到新的集合。清单1显示了一些使用浅拷贝来创建新的集合的方法。
 
 - 清单 1  创建浅拷贝
 
-```objectivec
+```javascript
 NSArray *shallowCopyArray=[someArray copyWithZone:nil];
 
 NSDictionary *shallowCopyDict=[[NSDictionary alloc] initWithDictionary: someDictionary copyItems: NO];
@@ -24,7 +24,7 @@ NSDictionary *shallowCopyDict=[[NSDictionary alloc] initWithDictionary: someDict
 
 - 清单 2  创建深拷贝
 
-```objectivec
+```javascript
 NSArray *deepCopyArray=[[NSArray alloc] initWithArray: someArray copyItems: YES];
 ```
 
@@ -33,12 +33,12 @@ NSArray *deepCopyArray=[[NSArray alloc] initWithArray: someArray copyItems: YES]
 如果您需要一个真正的深拷贝，比如对于一个数组，可以使用archive和unchive来处理，数组元素要符合 NSCoding 协议。您可以使用清单3的方法。
 
 - 清单 3  真正的深拷贝
-```
+```javascript
 NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeyedArchiver archivedDataWithRootObject: oldArray]];
 ```
 
 ####举例
-```
+```javascript
  NSArray *n = [[NSArray alloc] initWithObjects:[NSMutableString stringWithString:@"123"],@"456", nil];
  
     // = [n copy]
@@ -76,7 +76,7 @@ NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeye
     NSLog(@"Array n5 = %@", n5); 
 ```
 
-![_config.yml]({{ site.baseurl }}/images/copy1.jpg)
+![](/img/in-post/post-copy-collection/copy1.jpg)
 
 ##可变容器和不可变容器
 
@@ -99,7 +99,7 @@ NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeye
 
 ####举例
 
-```
+```javascript
 NSArray *n = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"123"],@"456", nil];
     NSLog(@"%p",n);
    
@@ -124,9 +124,9 @@ NSArray *n = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWith
     NSLog(@"%p",n2);
 ```
 
-![_config.yml]({{ site.baseurl }}/images/copy2.jpg)
+![](/img/in-post/post-copy-collection/copy2.jpg)
 
-```
+```javascript
 NSArray *n = [[NSArray alloc] initWithObjects:[NSMutableString stringWithString:@"123"],@"456", nil];
     NSLog(@"%p",n);
    
@@ -151,7 +151,7 @@ NSArray *n = [[NSArray alloc] initWithObjects:[NSMutableString stringWithString:
     NSLog(@"%p",n2);
 ```
 
-![_config.yml]({{ site.baseurl }}/images/copy3.jpg)
+![](/img/in-post/post-copy-collection/copy3.jpg)
 
 ##防止设置空值crash
 

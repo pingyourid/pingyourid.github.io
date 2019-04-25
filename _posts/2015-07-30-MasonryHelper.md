@@ -41,15 +41,15 @@ api比较少，基本上就3个，很容易记住；
 
 - 固定view宽度
 
-<img src="{{ site.baseurl }}/images/QQ20150730-1@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150730-2@2x.png" alt="" title="" width="200" />
+<img src="/img/in-post/post-masonry-helper/QQ20150730-1@2x.png" alt="" title="" width="200" /> <img src="/img/in-post/post-masonry-helper/QQ20150730-2@2x.png" alt="" title="" width="200" />
 
 - 固定间隙
 
-<img src="{{ site.baseurl }}/images/QQ20150730-3@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150730-4@2x.png" alt="" title="" width="200" />
+<img src="/img/in-post/post-masonry-helper/QQ20150730-3@2x.png" alt="" title="" width="200" /> <img src="/img/in-post/post-masonry-helper/QQ20150730-4@2x.png" alt="" title="" width="200" />
 
 - 针对固定宽度空格均匀分布
 
-```
+```javascript
 MAS_VIEW *prev;
         for (int i = 0; i < self.count; i++) {
             MAS_VIEW *v = [self objectAtIndex:i];
@@ -75,7 +75,7 @@ MAS_VIEW *prev;
 
 - 针对固定view宽度均匀分布。
 
-```
+```javascript
 MAS_VIEW *prev;
         for (int i = 0; i < self.count; i++) {
             MAS_VIEW *v = [self objectAtIndex:i];
@@ -103,7 +103,7 @@ MAS_VIEW *prev;
 
 这里就考虑计算小view的right属性＝父view的right属性*倍数+offset。于是建模，列方程组，推导如图：
 
-<img src="{{ site.baseurl }}/images/QQ20150901-1@2x.png" alt="" title="" width="200" /> <img src="{{ site.baseurl }}/images/QQ20150901-2@2x.png" alt="" title="" width="200" />
+<img src="/img/in-post/post-masonry-helper/QQ20150901-1@2x.png" alt="" title="" width="200" /> <img src="/img/in-post/post-masonry-helper/QQ20150901-2@2x.png" alt="" title="" width="200" />
 
 ---
 
