@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 导航自定义动画以及手势返回和手势前进
+catalog:    true
 ---
 
 ##### 前言

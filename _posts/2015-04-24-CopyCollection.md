@@ -1,6 +1,7 @@
 ---
 layout: post
 title: ios容器类内存管理详解
+catalog:    true
 ---
 
 ![](/img/in-post/post-copy-collection/copy_type.jpg)
@@ -37,7 +38,7 @@ NSArray *deepCopyArray=[[NSArray alloc] initWithArray: someArray copyItems: YES]
 NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeyedArchiver archivedDataWithRootObject: oldArray]];
 ```
 
-####举例
+#### 举例
 ```javascript
  NSArray *n = [[NSArray alloc] initWithObjects:[NSMutableString stringWithString:@"123"],@"456", nil];
  
@@ -78,13 +79,13 @@ NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeye
 
 ![](/img/in-post/post-copy-collection/copy1.jpg)
 
-##可变容器和不可变容器
+## 可变容器和不可变容器
 
 - NSArray对象不可变
 - NSMutableArray对象可变
 - `@[]或者@{}对象是不可变对象`
 
-##copy与mutableCopy
+## copy与mutableCopy
 - copy会返回一个不可变对象
 
 `对不可变对象使用copy,会返回原对象，不会开辟新的内存（可能是因为系统认为都是用不可变对象，没必要重新开辟一个空间）。`
@@ -97,7 +98,7 @@ NSArray* trueDeepCopyArray = [NSKeyedUnarchiver unarchiveObjectWithData: [NSKeye
 
 `对可变对象使用mutableCopy,会开辟新内存，返回一个可变对象。`
 
-####举例
+#### 举例
 
 ```javascript
 NSArray *n = [[NSMutableArray alloc] initWithObjects:[NSMutableString stringWithString:@"123"],@"456", nil];
@@ -153,7 +154,7 @@ NSArray *n = [[NSArray alloc] initWithObjects:[NSMutableString stringWithString:
 
 ![](/img/in-post/post-copy-collection/copy3.jpg)
 
-##防止设置空值crash
+## 防止设置空值crash
 
 - 会crash的调用
 
@@ -187,14 +188,14 @@ setValue..forkey
 
 其他Seria,Archive类操作容器时，也应当`确保操作的是一个不可变对象`。
 
-##总结
+## 总结
 
 - 应当`重写setObject..forkey,addObject方法`，避免crash。
 - `减少使用简写的赋值，初始化操作dic[aa] = nil，dic = @{@"**",nil}`
 - 可以适当的使用@[].mutableCopy,@{}.mutableCopy来初始化可变对象，或者取值以简化代码。
 - 尽量要枚举一个不可变的容器
 
-######参考文档
+###### 参考文档
 
 [iOS学习笔记——拷贝集合类（Copying Collections）](http://zgia.net/?p=299)
 

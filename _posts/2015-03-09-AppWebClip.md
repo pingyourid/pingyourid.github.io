@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 保存app内容到手机桌面
-subtitle:   "The Next Generation Application Model For The Web - Progressive Web App"
+subtitle:   "Quick App"
 date:       2015-03-09 12:00:00
 author:     "bibibi"
 header-img: "img/post-bg-nextgen-web-pwa.jpg"
@@ -28,6 +28,7 @@ safari生成webclip
 这种效果就是苹果的webclip,app上要生成它主要有2种方式。
 
 ## 通过安装描述文件的方式生成webclip
+
 - 使用iphone configuration utility生成一个webclip描述文件。
 
 	下载iphone configuration utility后配置一个描述文件，导出即可。

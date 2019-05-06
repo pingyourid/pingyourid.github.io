@@ -1,13 +1,14 @@
 ---
 layout: post
 title: ios自动布局以及对Masonry的扩展
+catalog:    true
 ---
 
 苹果的Autolayout是做适配的好东西，但是api比较难以使用，幸好还有一些优秀的第三方库帮我们封装了一层。这篇文章主要扩展了下Masonry:[masonry的扩展](https://github.com/pingyourid/MasonryHelper)
 
 我用过的是[Purelayout](https://github.com/smileyborg/PureLayout.git)和[Masonry](https://github.com/SnapKit/Masonry.git)。
 
-#####先用的是PureLayout
+##### 先用的是PureLayout
 
 - 优点：
 
@@ -19,7 +20,7 @@ title: ios自动布局以及对Masonry的扩展
 
 api太多，即使有代码自动提示，使用起来还是很不方便。
 
-#####后用的是Masonry
+##### 后用的是Masonry
 
 - 优点：
 
